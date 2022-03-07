@@ -1,0 +1,59 @@
+<div>
+
+  <mat-toolbar  color="primary">
+    <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+<!--      Le code proposé génère une erreur : ExpressionChangedAfterItHasBeenCheckedError -->
+<!--      <mat-icon *ngIf="drawer.opened === false" aria-label="Side nav toggle icon">menu_open</mat-icon>-->
+<!--      <mat-icon *ngIf="drawer.opened === true" aria-label="Side nav toggle icon">menu</mat-icon>-->
+
+<!--      Remplacé par le code suivant :-->
+      <mat-icon aria-label="Side nav toggle icon" (click)="toggleIcon(drawer.opened)">{{menuIcon}}</mat-icon>
+<!--      L'icone pour le menu est définie par la variable menuIcon, elle-même étant modifiée au click
+          de l'utilisateur grâce à la fonction toggleIcon() -->
+    </button>
+    <span>Gestion des utilisateurs</span>
+
+    <!-- This fills remaining space -->
+    <span class="fill-remaining-space"></span>
+
+    <button mat-button (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Déconnexion</span>
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport fixedTopGap="64"
+                 [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+                 [mode]="(isHandset$ | async) ? 'over' : 'side'"
+                 [opened]="(isHandset$ | async) === false">
+
+      <mat-nav-list>
+        <h2 matSubheader>Utilisateurs</h2>
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="list-item-active">
+          <mat-icon matListIcon>dashboard</mat-icon>Dashboard
+        </a>
+        <a mat-list-item routerLink="/users/list" routerLinkActive="list-item-active">
+          <mat-icon matListIcon>list</mat-icon>Ldap
+        </a>
+
+        <mat-divider></mat-divider>
+
+        <h2 matSubheader>Importation</h2>
+        <a mat-list-item routerLink="/import" routerLinkActive="list-item-active">
+          <mat-icon matListIcon>save_alt</mat-icon>Importation
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <!-- Add Content Here -->
+      <div class="main_content">
+        <ng-content></ng-content>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
+
+
